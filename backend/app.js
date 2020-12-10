@@ -1,13 +1,29 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
+const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+const Post = require('./models/posts');
 
-var app = express();
+const indexRouter = require('./routes/index');
+const usersRouter = require('./routes/users');
+
+const app = express();
+
+// Mongoose connection
+mongoose.connect('mongodb+srv://wilfredadmin:320Favor515@cluster0.hdvvn.mongodb.net?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true})
+.then(()=>{
+  console.log('Connected to database!')
+})
+.catch(()=>{
+  console.log('Connection Failed!')
+});
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false}));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -19,17 +35,61 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use((req,res, next)=>{
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE, OPTIONS");
+    next();
+});
+
+app.post("/api/posts", (req, res, next)=>{
+  // const posts = req.body;
+  const posts = new Post({
+    title: req.body.title,
+    content: req.body.content
+  });
+  // console.log(posts);
+  post.save();
+  res.status(201).json({
+    message: 'Post Added Successfully!!!'
+  });
+});
+
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
-app.use((req, res, next) =>{
-  console.log("First middleware")
-  next();
+app.use('/api/posts', (req,res, next)=>{
+  const posts= [
+    {
+      id: 'fad124211', 
+      title:'First server-side posts', 
+      content:'comming from the server'
+    },
+    {
+      id: 'fad124221', 
+      title:'Second server-side posts', 
+      content:'comming from the server'
+    },
+    {
+      id: 'fad124221', 
+      title:'Third server-side posts', 
+      content:'Third comming from the server'
+    }
+  ];
+  res.status(201).json({
+    message: 'Posts fetch successfully!!',
+    posts: posts
+  });
 });
 
-app.use((req, res, next)=>{
-  res.send("hello from express");
-});
+// app.use((req, res, next) =>{
+//   console.log("First middleware")
+//   next();
+// });
+
+// app.use((req, res, next)=>{
+//   res.send("hello from express");
+// });
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
