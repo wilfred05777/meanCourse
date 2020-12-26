@@ -12,6 +12,7 @@ import { PostCreateComponent } from './posts/post-create/post-create.component';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material.module';
+import { PostListComponent } from './posts/post-list/post-list.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { MaterialModule } from './material.module';
     HomeComponent,
     AboutComponent,
     ContactComponent,
-    PostCreateComponent
+    PostCreateComponent,
+    PostListComponent
   ],
   imports: [
     MaterialModule,
