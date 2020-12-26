@@ -10,7 +10,6 @@ import { AboutComponent } from './pages/about/about.component';
 import { ContactComponent } from './pages/contact/contact.component';
 import { PostCreateComponent } from './posts/post-create/post-create.component';
 import { FormsModule } from '@angular/forms';
-import { MatFormFieldModule } from '@angular/material/form-field';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material.module';
 
@@ -26,7 +25,6 @@ import { MaterialModule } from './material.module';
   ],
   imports: [
     MaterialModule,
-    MatFormFieldModule,
     FormsModule,
     BrowserModule,
     AppRoutingModule,
