@@ -6,6 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./post-create.component.scss']
 })
 export class PostCreateComponent implements OnInit {
+  enteredValue = '';
+  newPost = 'No Content';
 
   constructor() { }
 
@@ -13,7 +15,13 @@ export class PostCreateComponent implements OnInit {
   }
 
   onAddPost(){
-    alert('TEsting')
+    this.newPost = this.enteredValue;
   }
+
+  // onAddPost(postInput: HTMLTextAreaElement){
+  //   this.newPost = postInput.value;
+  //   // console.dir(postInput);
+  //   // this.newPost = 'Hello!';
+  // }
 
 }
