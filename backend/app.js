@@ -8,6 +8,15 @@ const mongoose = require('mongoose');
 
 const Post = require('./models/posts');
 
+// const MongoClient = require('mongodb').MongoClient;
+// const uri = "mongodb+srv://wilfredadmin:320Favor515@meancourse.hdvvn.mongodb.net/testDB?retryWrites=true&w=majority";
+// const client = new MongoClient(uri, { useNewUrlParser: true });
+// client.connect(err => {
+//   const collection = client.db("test").collection("devices");
+//   // perform actions on the collection object
+//   client.close();
+// });
+
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 
