@@ -8,17 +8,29 @@ const mongoose = require('mongoose');
 
 const Post = require('./models/posts');
 
-// const MongoClient = require('mongodb').MongoClient;
-// const uri = "mongodb+srv://wilfredadmin:320Favor515@meancourse.hdvvn.mongodb.net/testDB?retryWrites=true&w=majority";
-// const client = new MongoClient(uri, { useNewUrlParser: true });
-// client.connect(err => {
-//   const collection = client.db("test").collection("devices");
-//   // perform actions on the collection object
-//   client.close();
-// });
+const MongoClient = require('mongodb').MongoClient;
+const uri = "mongodb+srv://wilfredadmin:320Favor515@meancourse.hdvvn.mongodb.net/testDB?retryWrites=true&w=majority";
+const client = new MongoClient(uri, { useNewUrlParser: true });
+client.connect(err => {
+  const collection = client.db("test").collection("devices");
+  // perform actions on the collection object
+  client.close();
+});
+
+// MongoClient.connect(mongoose.connection, {useNewUrlParser: true, useUnifiedTopology: true})
+// .then(client =>{
+//   console.log('Connected to Database')
+//   const db = client.db('star-wars-qoutes')
+//   const qoutesCollection = db.collection('qoutes')
+//   app.use()
+//   app.get()
+//   app.post()
+//   app.listen()
+// }).catch(console.error)
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
+// const { MongoClient } = require('mongodb');
 
 const app = express();
 
@@ -50,6 +62,15 @@ app.use((req,res, next)=>{
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE, OPTIONS");
     next();
 });
+
+
+// app.post("/qoutes", (req, res)=>{
+//   qoutesCollection.insertOne(req.body)
+//   .then(result =>{
+//     console.log(result)
+//   })
+//   .catch(error => console.error(error))
+// })
 
 app.post("/api/posts", (req, res, next)=>{
   // const posts = req.body;
