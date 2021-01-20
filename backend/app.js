@@ -23,7 +23,7 @@ const usersRouter = require('./routes/users');
 const app = express();
 
 // Mongoose connection
-mongoose.connect('mongodb+srv://wilfredadmin:320Favor515@cluster0.hdvvn.mongodb.net?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true})
+mongoose.connect('mongodb+srv://wilfredadmin:320Favor515@meancourse.hdvvn.mongodb.net/node-angular?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true})
 .then(()=>{
   console.log('Connected to database!')
 })
