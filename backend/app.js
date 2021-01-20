@@ -8,29 +8,8 @@ const mongoose = require('mongoose');
 
 const Post = require('./models/posts');
 
-const MongoClient = require('mongodb').MongoClient;
-const uri = "mongodb+srv://wilfredadmin:320Favor515@meancourse.hdvvn.mongodb.net/testDB?retryWrites=true&w=majority";
-const client = new MongoClient(uri, { useNewUrlParser: true });
-client.connect(err => {
-  const collection = client.db("test").collection("devices");
-  // perform actions on the collection object
-  client.close();
-});
-
-// MongoClient.connect(mongoose.connection, {useNewUrlParser: true, useUnifiedTopology: true})
-// .then(client =>{
-//   console.log('Connected to Database')
-//   const db = client.db('star-wars-qoutes')
-//   const qoutesCollection = db.collection('qoutes')
-//   app.use()
-//   app.get()
-//   app.post()
-//   app.listen()
-// }).catch(console.error)
-
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
-// const { MongoClient } = require('mongodb');
 
 const app = express();
 
@@ -42,6 +21,7 @@ mongoose.connect('mongodb+srv://wilfredadmin:320Favor515@meancourse.hdvvn.mongod
 .catch(()=>{
   console.log('Connection Failed!')
 });
+
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false}));
@@ -64,52 +44,75 @@ app.use((req,res, next)=>{
 });
 
 
-// app.post("/qoutes", (req, res)=>{
-//   qoutesCollection.insertOne(req.body)
-//   .then(result =>{
-//     console.log(result)
-//   })
-//   .catch(error => console.error(error))
-// })
-
-app.post("/api/posts", (req, res, next)=>{
-  // const posts = req.body;
-  const posts = new Post({
-    title: req.body.title,
-    content: req.body.content
-  });
-  // console.log(posts);
-  post.save();
-  res.status(201).json({
-    message: 'Post Added Successfully!!!'
-  });
-});
-
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
-app.use('/api/posts', (req,res, next)=>{
-  const posts= [
-    {
-      id: 'fad124211', 
-      title:'First server-side posts', 
-      content:'comming from the server'
-    },
-    {
-      id: 'fad124221', 
-      title:'Second server-side posts', 
-      content:'comming from the server'
-    },
-    {
-      id: 'fad124221', 
-      title:'Third server-side posts', 
-      content:'Third comming from the server'
-    }
-  ];
-  res.status(201).json({
-    message: 'Posts fetch successfully!!',
-    posts: posts
+app.post('/api/posts', (req, res, next) =>{
+  const post = new Post({
+    title: req.body.title,
+    content: req.body.content
   });
+  post.save();
+  res.status(201).json({
+    message: "Post Added successfully"
+  });
+});
+
+app.post('/api/addposts', (req, res, next) =>{
+  const post = new Post({
+    title: req.body.title,
+    content: req.body.content
+  });
+  post.save();
+  res.status(201).json({
+    message: "Post Added successfully"
+  });
+});
+
+// app.post("/api/posts", (req, res, next)=>{
+//   // const posts = req.body;
+//   const posts = new Post({
+//     title: req.body.title,
+//     content: req.body.content
+//   });
+//   console.log(posts);
+//   post.save();
+//   res.status(201).json({
+//     message: 'Post Added Successfully!!!'
+//   });
+// });
+
+app.get('/api/posts', (req ,res, next)=>{
+  Post.find()
+      .then(documents => {
+        // console.log(documents)
+        res.status(200).json({
+        message: "Posts fetched successfully!",
+        posts: documents
+        })
+  });
+
+  // const posts= [
+  //   {
+  //     id: 'fad124211', 
+  //     title:'First server-side posts', 
+  //     content:'comming from the server'
+  //   },
+  //   {
+  //     id: 'fad124221', 
+  //     title:'Second server-side posts', 
+  //     content:'comming from the server'
+  //   },
+  //   {
+  //     id: 'fad124221', 
+  //     title:'Third server-side posts', 
+  //     content:'Third comming from the server'
+  //   }
+  // ];
+  // res.status(201).json({
+  //   message: 'Posts fetch successfully!!',
+  //   posts: posts
+  // });
 });
 
 // app.use((req, res, next) =>{
