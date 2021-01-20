@@ -47,6 +47,8 @@ app.use((req,res, next)=>{
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
+
+// dili maka store/save ang angular UI padulong sa mongodb pero ma able sya ma view sa backend routes
 app.post('/api/posts', (req, res, next) =>{
   const post = new Post({
     title: req.body.title,
@@ -56,6 +58,7 @@ app.post('/api/posts', (req, res, next) =>{
   res.status(201).json({
     message: "Post Added successfully"
   });
+  next()
 });
 
 app.post('/api/addposts', (req, res, next) =>{
@@ -82,7 +85,7 @@ app.post('/api/addposts', (req, res, next) =>{
 //   });
 // });
 
-app.get('/api/posts', (req ,res, next)=>{
+app.use('/api/posts', (req ,res, next)=>{
   Post.find()
       .then(documents => {
         // console.log(documents)
