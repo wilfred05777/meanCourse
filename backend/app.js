@@ -100,9 +100,13 @@ app.use("/api/posts", (req, res, next) => {
   //   posts: posts
   // });
 });
-app.delete("/api/posts/:id", (req, res, next) => {
-  console.log(req.params.id);
-  res.status(200).json({ message: "Post Deleted!" });
+app.use("/api/posts/:id", (req, res, next) => {
+  Post.deleteOne({ _id: req.params._id }).then((result) => {
+    console.log(result);
+    res.status(200).json({ message: "Post Deleted!" });
+  });
+  // console.log(req.params.id);
+  // res.status(200).json({ message: "Post Deleted!" });
 });
 
 // app.post("/api/addposts", (req, res, next) => {
