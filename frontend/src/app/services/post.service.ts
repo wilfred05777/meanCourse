@@ -21,9 +21,9 @@ export class PostService {
         map((postData) => {
           return postData.posts.map((post) => {
             return {
+              id: post._id,
               title: post.title,
               content: post.content,
-              id: post._id,
             };
           });
         })
