@@ -55,6 +55,7 @@ app.use((req, res, next) => {
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
 
+// maka save na kay dapat i set ang post service ang http to http://localhost:3000/api/posts
 // dili maka store/save ang angular UI padulong sa mongodb pero ma able sya ma view sa backend routes
 app.post("/api/posts", (req, res, next) => {
   const post = new Post({
@@ -67,30 +68,6 @@ app.post("/api/posts", (req, res, next) => {
   });
   next();
 });
-
-app.post("/api/addposts", (req, res, next) => {
-  const post = new Post({
-    title: req.body.title,
-    content: req.body.content,
-  });
-  post.save();
-  res.status(201).json({
-    message: "Post Added successfully",
-  });
-});
-
-// app.post("/api/posts", (req, res, next)=>{
-//   // const posts = req.body;
-//   const posts = new Post({
-//     title: req.body.title,
-//     content: req.body.content
-//   });
-//   console.log(posts);
-//   post.save();
-//   res.status(201).json({
-//     message: 'Post Added Successfully!!!'
-//   });
-// });
 
 app.use("/api/posts", (req, res, next) => {
   Post.find().then((documents) => {
@@ -123,6 +100,34 @@ app.use("/api/posts", (req, res, next) => {
   //   posts: posts
   // });
 });
+app.delete("/api/posts/:id", (req, res, next) => {
+  console.log(req.params.id);
+  res.status(200).json({ message: "Post Deleted!" });
+});
+
+// app.post("/api/addposts", (req, res, next) => {
+//   const post = new Post({
+//     title: req.body.title,
+//     content: req.body.content,
+//   });
+//   post.save();
+//   res.status(201).json({
+//     message: "Post Added successfully",
+//   });
+// });
+
+// app.post("/api/posts", (req, res, next)=>{
+//   // const posts = req.body;
+//   const posts = new Post({
+//     title: req.body.title,
+//     content: req.body.content
+//   });
+//   console.log(posts);
+//   post.save();
+//   res.status(201).json({
+//     message: 'Post Added Successfully!!!'
+//   });
+// });
 
 // app.use((req, res, next) =>{
 //   console.log("First middleware")
