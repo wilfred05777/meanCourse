@@ -6,7 +6,7 @@ import { Post } from '../../models/post.model';
 @Component({
   selector: 'app-post-list',
   templateUrl: './post-list.component.html',
-  styleUrls: ['./post-list.component.scss']
+  styleUrls: ['./post-list.component.scss'],
 })
 export class PostListComponent implements OnInit {
   // posts = [
@@ -15,29 +15,29 @@ export class PostListComponent implements OnInit {
   //   { title: "Third Post", content: "This is the third post's content" }
   // ];
 
-  posts:Post[] = [];
+  posts: Post[] = [];
   private postsSub: Subscription;
 
-  constructor(public postsService: PostService) { }
+  constructor(public postsService: PostService) {}
 
   ngOnInit(): void {
     this.postsService.getPosts();
-    this.postsSub = this.postsService.getPostUpdateListener()
-      .subscribe((posts: Post[]) =>{
+    this.postsSub = this.postsService
+      .getPostUpdateListener()
+      .subscribe((posts: Post[]) => {
         this.posts = posts;
-      })
+      });
     // this.posts = this.postsService.getPosts();
     // this.postsSub = this.postsService.getPostUpdateListener()
     //   .subscribe((posts: Post[]) => {
     //     this.posts = posts;
     //   });
-  } 
+  }
 
-  onDelete(){
+  onDelete() {
     // this.postsService.deletePost(postId);
   }
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.postsSub.unsubscribe();
   }
-
 }
