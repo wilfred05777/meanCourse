@@ -52,6 +52,15 @@ app.use((req, res, next) => {
   next();
 });
 
+// app.use((req, res, next) => {
+//   res.header("Access-Control-Allow-Origin", "*");
+//   res.header(
+//     "Access-Control-Allow-Headers",
+//     "Origin, X-Requested-With, Content-Type, Accept"
+//   );
+//   next();
+// });
+
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
 
@@ -100,8 +109,8 @@ app.use("/api/posts", (req, res, next) => {
   //   posts: posts
   // });
 });
-app.use("/api/posts/:id", (req, res, next) => {
-  Post.deleteOne({ _id: req.params._id }).then((result) => {
+app.delete("/api/posts/:id", (req, res, next) => {
+  Post.deleteOne({ _id: req.params.id }).then((result) => {
     console.log(result);
     res.status(200).json({ message: "Post Deleted!" });
   });

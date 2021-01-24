@@ -57,9 +57,9 @@ export class PostService {
     // this.postsUpdated.next([...this.posts]);
   }
 
-  deletePost(postsId: string) {
+  deletePost(postsId: String) {
     this.http
-      .delete('http://localhost:300/api/posts/' + postsId)
+      .delete('http://localhost:3000/api/posts/' + postsId)
       .subscribe(() => {
         console.log('Deleted!');
       });
