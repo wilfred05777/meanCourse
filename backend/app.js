@@ -1,74 +1,81 @@
-const createError = require('http-errors');
-const express = require('express');
-const path = require('path');
-const cookieParser = require('cookie-parser');
-const logger = require('morgan');
-const bodyParser = require('body-parser');
-const mongoose = require('mongoose');
+const createError = require("http-errors");
+const express = require("express");
+const path = require("path");
+const cookieParser = require("cookie-parser");
+const logger = require("morgan");
+const bodyParser = require("body-parser");
+const mongoose = require("mongoose");
 
-const Post = require('./models/posts');
+const Post = require("./models/posts");
 
-const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');
+const indexRouter = require("./routes/index");
+const usersRouter = require("./routes/users");
 
 const app = express();
 
 // Mongoose connection
-mongoose.connect('mongodb+srv://wilfredadmin:320Favor515@meancourse.hdvvn.mongodb.net/node-angular?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true})
-.then(()=>{
-  console.log('Connected to database!')
-})
-.catch(()=>{
-  console.log('Connection Failed!')
-});
-
+mongoose
+  .connect(
+    "mongodb+srv://wilfredadmin:320Favor515@meancourse.hdvvn.mongodb.net/node-angular?retryWrites=true&w=majority",
+    { useNewUrlParser: true, useUnifiedTopology: true }
+  )
+  .then(() => {
+    console.log("Connected to database!");
+  })
+  .catch(() => {
+    console.log("Connection Failed!");
+  });
 
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false}));
+app.use(bodyParser.urlencoded({ extended: false }));
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+app.set("views", path.join(__dirname, "views"));
+app.set("view engine", "jade");
 
-app.use(logger('dev'));
+app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, "public")));
 
-app.use((req,res, next)=>{
+app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE, OPTIONS");
-    next();
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET, POST, PATCH, DELETE, OPTIONS"
+  );
+  next();
 });
 
-
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
-
+app.use("/", indexRouter);
+app.use("/users", usersRouter);
 
 // dili maka store/save ang angular UI padulong sa mongodb pero ma able sya ma view sa backend routes
-app.post('/api/posts', (req, res, next) =>{
+app.post("/api/posts", (req, res, next) => {
   const post = new Post({
     title: req.body.title,
-    content: req.body.content
+    content: req.body.content,
   });
   post.save();
   res.status(201).json({
-    message: "Post Added successfully"
+    message: "Post Added successfully",
   });
-  next()
+  next();
 });
 
-app.post('/api/addposts', (req, res, next) =>{
+app.post("/api/addposts", (req, res, next) => {
   const post = new Post({
     title: req.body.title,
-    content: req.body.content
+    content: req.body.content,
   });
   post.save();
   res.status(201).json({
-    message: "Post Added successfully"
+    message: "Post Added successfully",
   });
 });
 
@@ -85,30 +92,29 @@ app.post('/api/addposts', (req, res, next) =>{
 //   });
 // });
 
-app.use('/api/posts', (req ,res, next)=>{
-  Post.find()
-      .then(documents => {
-        // console.log(documents)
-        res.status(200).json({
-        message: "Posts fetched successfully!",
-        posts: documents
-        })
+app.use("/api/posts", (req, res, next) => {
+  Post.find().then((documents) => {
+    // console.log(documents)
+    res.status(200).json({
+      message: "Posts fetched successfully!",
+      posts: documents,
+    });
   });
 
   // const posts= [
   //   {
-  //     id: 'fad124211', 
-  //     title:'First server-side posts', 
+  //     id: 'fad124211',
+  //     title:'First server-side posts',
   //     content:'comming from the server'
   //   },
   //   {
-  //     id: 'fad124221', 
-  //     title:'Second server-side posts', 
+  //     id: 'fad124221',
+  //     title:'Second server-side posts',
   //     content:'comming from the server'
   //   },
   //   {
-  //     id: 'fad124221', 
-  //     title:'Third server-side posts', 
+  //     id: 'fad124221',
+  //     title:'Third server-side posts',
   //     content:'Third comming from the server'
   //   }
   // ];
@@ -128,19 +134,19 @@ app.use('/api/posts', (req ,res, next)=>{
 // });
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+  res.locals.error = req.app.get("env") === "development" ? err : {};
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+  res.render("error");
 });
 
 module.exports = app;
